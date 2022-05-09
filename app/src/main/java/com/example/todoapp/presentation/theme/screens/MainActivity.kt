@@ -20,6 +20,8 @@ class MainActivity : ComponentActivity() {
                         setContent {
                                     TodoAppTheme {
                                                 window?.statusBarColor = BackgroundColor.toArgb()
+                                                window?.navigationBarColor = BackgroundColor.toArgb()
+
                                                 Surface(
                                                             color = BackgroundColor
 ,
