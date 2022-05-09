@@ -8,7 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +34,11 @@ fun MainScreen() {
                         itemList.add(ItemStructure(price = 200, name = "Food"))
                         itemList.add(ItemStructure(price = 400, name = "Data"))
                         itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
+                        val name by remember { mutableStateOf(
+                                    itemList.sumOf { it.price }
+                        ) }
+
+
 
 
                         Text(text = "coinTracer",
@@ -45,7 +50,7 @@ fun MainScreen() {
 
                                     }
                         )
-                        Text(text = "$12345",
+                        Text(text = "$$name",
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 24.sp,
                                     color = Color.White,
@@ -72,21 +77,21 @@ fun SingleBudgetItem(item: ItemStructure) {
             Row(
                         modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(vertical = 5.dp),
+                                    .padding(vertical = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
             ) {
                         Row(
                                     modifier = Modifier
-                                                .background(
-                                                color = BadgeColor
-                                    )
-                                                .padding(5.dp)
                                                 .clip(CircleShape)
+                                                .background(
+                                                            color = BadgeColor
+                                                )
+                                                .padding(vertical = 5.dp, horizontal = 8.dp)
 
                         ) {
                                     Text(
                                                 text = "$${item.price}",
-                                                fontSize = 14.sp,
+                                                fontSize = 16.sp,
                                                 color = Color.White,
                                                 fontWeight = FontWeight.Bold,
 
@@ -95,7 +100,7 @@ fun SingleBudgetItem(item: ItemStructure) {
                         Spacer(modifier = Modifier.width(5.dp))
                         Text(
                                     text = item.name,
-                                    fontSize = 15.sp,
+                                    fontSize = 17.sp,
                                     color = Color.White,
                         )
             }
