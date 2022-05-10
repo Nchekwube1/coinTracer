@@ -31,7 +31,7 @@ fun MainScreen() {
 
 
             ConstraintLayout(
-                        modifier = Modifier.padding(16.dp)
+//                        modifier = Modifier.padding(16.dp)
             ) {
 
 
@@ -40,32 +40,27 @@ fun MainScreen() {
                         itemList.add(ItemStructure(price = 200, name = "Food"))
                         itemList.add(ItemStructure(price = 400, name = "Data"))
                         itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
-                        itemList.add(ItemStructure(price = 200, name = "Food"))
-                        itemList.add(ItemStructure(price = 400, name = "Data"))
-                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
-                        itemList.add(ItemStructure(price = 200, name = "Food"))
-                        itemList.add(ItemStructure(price = 400, name = "Data"))
-                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
-                        itemList.add(ItemStructure(price = 200, name = "Food"))
-                        itemList.add(ItemStructure(price = 400, name = "Data"))
-                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
-                        itemList.add(ItemStructure(price = 200, name = "Food"))
-                        itemList.add(ItemStructure(price = 400, name = "Data"))
-                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
-                        itemList.add(ItemStructure(price = 200, name = "Food"))
-                        itemList.add(ItemStructure(price = 400, name = "Data"))
-                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
+//                        itemList.add(ItemStructure(price = 200, name = "Food"))
+//                        itemList.add(ItemStructure(price = 400, name = "Data"))
+//                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
+//                        itemList.add(ItemStructure(price = 200, name = "Food"))
+//                        itemList.add(ItemStructure(price = 400, name = "Data"))
+//                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
+//                        itemList.add(ItemStructure(price = 200, name = "Food"))
+//                        itemList.add(ItemStructure(price = 400, name = "Data"))
+//                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
+//                        itemList.add(ItemStructure(price = 200, name = "Food"))
+//                        itemList.add(ItemStructure(price = 400, name = "Data"))
+//                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
+//                        itemList.add(ItemStructure(price = 200, name = "Food"))
+//                        itemList.add(ItemStructure(price = 400, name = "Data"))
+//                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
                         val total by remember {
                                     mutableStateOf(
                                                 itemList.sumOf { it.price }
                                     )
                         }
-                        var name by  remember {
-                                    mutableStateOf("")
-                        }
-                        var  amount by  remember {
-                                    mutableStateOf("")
-                        }
+
                         val coroutineScope = rememberCoroutineScope()
                         val sheetState =
                                     rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
@@ -136,33 +131,87 @@ fun MainScreen() {
                                                 )
                                     }
                         }
+
+
+//                        BottomSheet(sheetState)
+                        var name by  remember {
+                                    mutableStateOf("")
+                        }
+                        var  amount by  remember {
+                                    mutableStateOf("")
+                        }
+
                         ModalBottomSheetLayout(
                                     sheetState = sheetState,
                                     sheetContent = {
-                                                   Column() {
-                                                               OutlinedTextField(
-                                                                           value =name ,
-                                                                           onValueChange = {
-                                                                                       name = it
-                                                                           },
-                                                                           placeholder = { Text(text = "Input item")}
-                                                               )
+                                                Column(
+                                                            modifier = Modifier
+                                                                        .padding(10.dp)
+                                                ) {
+                                                            OutlinedTextField(
+                                                                        value =name ,
+                                                                        onValueChange = {
+                                                                                    name = it
+                                                                        },
+                                                                        placeholder = { Text(text = "Input item")},
+                                                                        modifier = Modifier
+                                                                                    .fillMaxWidth()
+                                                            )
 
-                                                               OutlinedTextField(
-                                                                           value =amount ,
-                                                                           onValueChange = {
-                                                                                       amount = it
-                                                                           },
-                                                                           placeholder = { Text(text = "Input amount")}
-                                                               )
-                                                   }
+                                                            OutlinedTextField(
+                                                                        value =amount ,
+                                                                        onValueChange = {
+                                                                                    amount = it
+                                                                        },
+                                                                        placeholder = { Text(text = "Input amount")},
+                                                                        modifier = Modifier
+                                                                                    .fillMaxWidth()
+                                                            )
+                                                }
                                     },
-                                    modifier = Modifier
-//                                                .height(80.dp)
-                                                .padding(10.dp)
                         ) {
 
                         }
+            }
+}
+
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun BottomSheet(sheetState:ModalBottomSheetState){
+            var name by  remember {
+                        mutableStateOf("")
+            }
+            var  amount by  remember {
+                        mutableStateOf("")
+            }
+
+            ModalBottomSheetLayout(
+                        sheetState = sheetState,
+                        sheetContent = {
+                                    Column() {
+                                                OutlinedTextField(
+                                                            value =name ,
+                                                            onValueChange = {
+                                                                        name = it
+                                                            },
+                                                            placeholder = { Text(text = "Input item")}
+                                                )
+
+                                                OutlinedTextField(
+                                                            value =amount ,
+                                                            onValueChange = {
+                                                                        amount = it
+                                                            },
+                                                            placeholder = { Text(text = "Input amount")}
+                                                )
+                                    }
+                        },
+                        modifier = Modifier
+//                                                .height(80.dp)
+                                    .padding(10.dp)
+            ) {
+
             }
 }
 
