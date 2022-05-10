@@ -1,6 +1,7 @@
 package com.example.todoapp.presentation.theme.screens
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +22,6 @@ class MainActivity : ComponentActivity() {
                                     TodoAppTheme {
                                                 window?.statusBarColor = BackgroundColor.toArgb()
                                                 window?.navigationBarColor = BackgroundColor.toArgb()
-
                                                 Surface(
                                                             color = BackgroundColor
 ,

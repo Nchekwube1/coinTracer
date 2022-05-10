@@ -57,8 +57,6 @@ fun MainScreen() {
                                     rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
 
-
-
                         Text(text = "coinTracer",
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 22.sp,
@@ -146,6 +144,8 @@ fun MainScreen() {
                                                 Column(
                                                             modifier = Modifier
                                                                         .padding(10.dp)
+                                                                        .wrapContentHeight()
+
                                                 ) {
                                                             Spacer(modifier = Modifier.height(10.dp))
 
@@ -154,9 +154,11 @@ fun MainScreen() {
                                                                         onValueChange = {
                                                                                     name = it
                                                                         },
-                                                                        placeholder = { Text(text = "Input item") },
+                                                                        label = { Text(text = "Input item") },
                                                                         modifier = Modifier
                                                                                     .fillMaxWidth()
+                                                            ,
+                                                                        shape = MaterialTheme.shapes.medium
                                                             )
                                                             Spacer(modifier = Modifier.height(10.dp))
 
@@ -165,12 +167,14 @@ fun MainScreen() {
                                                                         onValueChange = {
                                                                                     amount = it
                                                                         },
-                                                                        placeholder = { Text(text = "Input amount") },
+                                                                        label = { Text(text = "Input amount") },
                                                                         modifier = Modifier
                                                                                     .fillMaxWidth(),
                                                                         keyboardOptions = KeyboardOptions(
                                                                                     keyboardType = KeyboardType.Number
-                                                                        )
+                                                                        ),
+                                                                        shape = MaterialTheme.shapes.medium
+
                                                             )
                                                             Spacer(modifier = Modifier.height(10.dp))
                                                             Button(onClick = {
@@ -182,8 +186,10 @@ fun MainScreen() {
                                                                         }
 
                                                             },
-//                                                            modifier = Modifier
-                                                                        ) {
+//                                                            modifier = Modifier,
+                                                                    shape = MaterialTheme.shapes.medium
+
+                                                            ) {
                                                                         Text(text = "Add",
                                                                         modifier = Modifier
                                                                                     .fillMaxWidth()
