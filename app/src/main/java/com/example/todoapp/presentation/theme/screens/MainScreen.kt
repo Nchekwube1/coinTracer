@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -14,11 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.core.text.isDigitsOnly
 import com.example.todoapp.data.ItemStructure
 import com.example.todoapp.presentation.theme.BackgroundColor
 import com.example.todoapp.presentation.theme.BadgeColor
@@ -31,15 +35,23 @@ fun MainScreen() {
 
 
             ConstraintLayout(
-//                        modifier = Modifier.padding(16.dp)
+
             ) {
 
 
                         val (titleRef, totalRef, lazyRowRef, fabItem, bottomSheet) = createRefs()
-                        val itemList = mutableListOf<ItemStructure>()
-                        itemList.add(ItemStructure(price = 200, name = "Food"))
-                        itemList.add(ItemStructure(price = 400, name = "Data"))
-                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
+//                        val itemList = mutableListOf<ItemStructure>()
+                        val itemList by remember {
+                                    mutableStateOf(
+                                                mutableListOf<ItemStructure>()
+                                    )
+                        }
+
+                         fun updateItemList( amount:Int, name:String){
+                                     itemList.add(ItemStructure(price = amount, name = name))
+                        }
+//                        itemList.add(ItemStructure(price = 400, name = "Data"))
+//                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
 //                        itemList.add(ItemStructure(price = 200, name = "Food"))
 //                        itemList.add(ItemStructure(price = 400, name = "Data"))
 //                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
@@ -72,21 +84,27 @@ fun MainScreen() {
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 22.sp,
                                     color = Color.Gray,
-                                    modifier = Modifier.constrainAs(titleRef) {
-                                                top.linkTo(parent.top)
-                                                bottom.linkTo(titleRef.top)
-
-                                    }
+                                    modifier = Modifier
+                                                .constrainAs(titleRef) {
+                                                            top.linkTo(parent.top)
+                                                            bottom.linkTo(titleRef.top)
+                                                }
+                                                .padding(horizontal = 16.dp)
                         )
                         Text(text = "$$total",
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 24.sp,
                                     color = Color.White,
-                                    modifier = Modifier.constrainAs(totalRef) {
-                                                top.linkTo(titleRef.bottom, margin = 10.dp)
-                                                bottom.linkTo(lazyRowRef.top)
-
-                                    })
+                                    modifier = Modifier
+                                                .constrainAs(totalRef) {
+                                                            top.linkTo(
+                                                                        titleRef.bottom,
+                                                                        margin = 10.dp
+                                                            )
+                                                            bottom.linkTo(lazyRowRef.top)
+                                                }
+                                                .padding(horizontal = 16.dp)
+                        )
                         LazyColumn(
                                     modifier = Modifier
                                                 .constrainAs(lazyRowRef) {
@@ -96,6 +114,7 @@ fun MainScreen() {
                                                             )
 //                                                bottom.linkTo(fabItem.top)
                                                 }
+                                                .padding(horizontal = 16.dp)
                         ) {
                                     items(itemList) { item ->
                                                 SingleBudgetItem(item)
@@ -107,15 +126,16 @@ fun MainScreen() {
                                                 bottom.linkTo(parent.bottom)
 //                                                top.linkTo(lazyRowRef.bottom)
                                     }
+                                    .padding(horizontal = 16.dp)
                                     .fillMaxWidth(),
                                     horizontalArrangement = Arrangement.End,
                                     verticalAlignment = Alignment.CenterVertically
                         ) {
                                     FloatingActionButton(
                                                 onClick = {
-                                                          coroutineScope.launch {
-                                                                      sheetState.show()
-                                                          }
+                                                            coroutineScope.launch {
+                                                                        sheetState.show()
+                                                            }
                                                 },
                                                 modifier = Modifier.clip(CircleShape),
                                                 backgroundColor = PrimaryRed
@@ -134,10 +154,10 @@ fun MainScreen() {
 
 
 //                        BottomSheet(sheetState)
-                        var name by  remember {
+                        var name by remember {
                                     mutableStateOf("")
                         }
-                        var  amount by  remember {
+                        var amount by remember {
                                     mutableStateOf("")
                         }
 
@@ -148,25 +168,55 @@ fun MainScreen() {
                                                             modifier = Modifier
                                                                         .padding(10.dp)
                                                 ) {
+                                                            Spacer(modifier = Modifier.height(10.dp))
+
                                                             OutlinedTextField(
-                                                                        value =name ,
+                                                                        value = name,
                                                                         onValueChange = {
                                                                                     name = it
                                                                         },
-                                                                        placeholder = { Text(text = "Input item")},
+                                                                        placeholder = { Text(text = "Input item") },
                                                                         modifier = Modifier
                                                                                     .fillMaxWidth()
                                                             )
+                                                            Spacer(modifier = Modifier.height(10.dp))
 
                                                             OutlinedTextField(
-                                                                        value =amount ,
+                                                                        value = amount,
                                                                         onValueChange = {
                                                                                     amount = it
                                                                         },
-                                                                        placeholder = { Text(text = "Input amount")},
+                                                                        placeholder = { Text(text = "Input amount") },
+                                                                        modifier = Modifier
+                                                                                    .fillMaxWidth(),
+                                                                        keyboardOptions = KeyboardOptions(
+                                                                                    keyboardType = KeyboardType.Number
+                                                                        )
+                                                            )
+                                                            Spacer(modifier = Modifier.height(10.dp))
+                                                            Button(onClick = {
+                                                                        updateItemList(amount = amount.toInt(),  name = name)
+                                                                        amount=""
+                                                                        name=""
+                                                                        coroutineScope.launch {
+                                                                                    sheetState.hide()
+                                                                        }
+
+                                                            },
+//                                                            modifier = Modifier
+                                                                        ) {
+                                                                        Text(text = "Add",
                                                                         modifier = Modifier
                                                                                     .fillMaxWidth()
-                                                            )
+                                                                                    .padding(vertical = 5.dp)
+                                                                                    ,
+                                                                                    textAlign = TextAlign.Center,
+                                                                                    fontSize = 17.sp,
+                                                                                    fontWeight = FontWeight.Bold
+                                                                                    )
+
+                                                            }
+
                                                 }
                                     },
                         ) {
@@ -176,44 +226,6 @@ fun MainScreen() {
 }
 
 
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun BottomSheet(sheetState:ModalBottomSheetState){
-            var name by  remember {
-                        mutableStateOf("")
-            }
-            var  amount by  remember {
-                        mutableStateOf("")
-            }
-
-            ModalBottomSheetLayout(
-                        sheetState = sheetState,
-                        sheetContent = {
-                                    Column() {
-                                                OutlinedTextField(
-                                                            value =name ,
-                                                            onValueChange = {
-                                                                        name = it
-                                                            },
-                                                            placeholder = { Text(text = "Input item")}
-                                                )
-
-                                                OutlinedTextField(
-                                                            value =amount ,
-                                                            onValueChange = {
-                                                                        amount = it
-                                                            },
-                                                            placeholder = { Text(text = "Input amount")}
-                                                )
-                                    }
-                        },
-                        modifier = Modifier
-//                                                .height(80.dp)
-                                    .padding(10.dp)
-            ) {
-
-            }
-}
 
 
 @Composable
