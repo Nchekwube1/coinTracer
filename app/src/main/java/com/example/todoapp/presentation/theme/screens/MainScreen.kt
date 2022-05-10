@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,39 +40,17 @@ fun MainScreen() {
             ) {
 
 
-                        val (titleRef, totalRef, lazyRowRef, fabItem, bottomSheet) = createRefs()
-//                        val itemList = mutableListOf<ItemStructure>()
-                        val itemList by remember {
-                                    mutableStateOf(
-                                                mutableListOf<ItemStructure>()
-                                    )
+                        val (titleRef, totalRef, lazyRowRef, fabItem) = createRefs()
+                        val itemList = remember {
+                                                mutableStateListOf<ItemStructure>()
                         }
+
+
 
                          fun updateItemList( amount:Int, name:String){
                                      itemList.add(ItemStructure(price = amount, name = name))
                         }
-//                        itemList.add(ItemStructure(price = 400, name = "Data"))
-//                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
-//                        itemList.add(ItemStructure(price = 200, name = "Food"))
-//                        itemList.add(ItemStructure(price = 400, name = "Data"))
-//                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
-//                        itemList.add(ItemStructure(price = 200, name = "Food"))
-//                        itemList.add(ItemStructure(price = 400, name = "Data"))
-//                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
-//                        itemList.add(ItemStructure(price = 200, name = "Food"))
-//                        itemList.add(ItemStructure(price = 400, name = "Data"))
-//                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
-//                        itemList.add(ItemStructure(price = 200, name = "Food"))
-//                        itemList.add(ItemStructure(price = 400, name = "Data"))
-//                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
-//                        itemList.add(ItemStructure(price = 200, name = "Food"))
-//                        itemList.add(ItemStructure(price = 400, name = "Data"))
-//                        itemList.add(ItemStructure(price = 2070, name = "Flenjo"))
-                        val total by remember {
-                                    mutableStateOf(
-                                                itemList.sumOf { it.price }
-                                    )
-                        }
+                        val total = itemList.sumOf { it.price }
 
                         val coroutineScope = rememberCoroutineScope()
                         val sheetState =
